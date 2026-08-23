@@ -1,0 +1,22 @@
+{
+  "version": "3.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "htmx@2.0.10",
+      "destination": "wwwroot/htmx/",
+      "files": [
+        "htmx.min.js"
+      ]
+    },
+    {
+      "library": "uikit@3.25.5",
+      "destination": "wwwroot/uikit/",
+      "files": [
+        "js/uikit.min.js",
+        "js/uikit-icons.min.js",
+        "css/uikit.min.css"
+      ]
+    }
+  ]
+}
