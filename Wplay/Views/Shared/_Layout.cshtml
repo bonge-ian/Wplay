@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="~/Wplay.styles.css" asp-append-version="true" />
 </head>
 <body>
+    @Html.AntiForgeryToken()
     <header>
         <div class="uk-box-shadow-small uk-background-default uk-margin-bottom">
             <div class="uk-container">
@@ -66,6 +67,16 @@
     <script src="~/lib/uikit/js/uikit.min.js"></script>
     <script src="~/lib/uikit/js/uikit-icons.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                document.body.addEventListener('htmx:configRequest', (event) => {
+                    const tokenElement = document.querySelector('input[name="__RequestVerificationToken"]');
+                    if (tokenElement) {
+                        event.detail.headers['RequestVerificationToken'] = tokenElement.value;
+                    }
+                });
+            });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
