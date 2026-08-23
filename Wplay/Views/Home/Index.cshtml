@@ -1,8 +1,182 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Real-time Webhook & Email Inspector";
+    var curlCommand = """
+    curl -X POST https://wplay.dev/hp/{your-bucket-uuid} \
+      -H "Content-Type: application/json" \
+      -d '{"event": "payment.succeeded", "amount": 2900}'
+    """;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Hero Section -->
+<div class="uk-section uk-section-small uk-text-center">
+    <div class="uk-container uk-container-small">
+        <span class="uk-label uk-label-primary uk-text-bold uk-margin-small-bottom">Developer Sandbox</span>
+        <h1 class="uk-heading-medium uk-text-bold uk-margin-small-top">
+            Inspect, Mock & Test <br class="uk-visible@s" />Webhooks & Inbound Emails
+        </h1>
+        <p class="uk-text-lead uk-text-muted uk-margin-medium-bottom">
+            Capture raw HTTP requests, inspect headers and JSON bodies in real time, and simulate forced failure codes or lottery conditions with zero setup.
+        </p>
+
+        <!-- Primary Action Call -->
+        <div class="uk-flex uk-flex-center uk-flex-middle uk-grid-small" uk-grid>
+            <div>
+                <form asp-controller="Endpoint" asp-action="Create" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="uk-button uk-button-primary uk-button-large uk-text-bold">
+                        <span uk-icon="icon: plus-circle" class="uk-margin-small-right"></span> Create Temporary Bucket
+                    </button>
+                </form>
+            </div>
+            <div>
+                <a href="#how-it-works" class="uk-button uk-button-default uk-button-large" uk-scroll>
+                    How It Works
+                </a>
+            </div>
+        </div>
+        <p class="uk-text-meta uk-margin-small-top">No registration required. Instant ephemeral endpoints.</p>
+    </div>
+</div>
+
+<!-- Interactive Code & URL Simulation Showcase -->
+<div class="uk-section uk-section-xsmall" id="how-it-works">
+    <div class="uk-container">
+        <div class="uk-card uk-card-default uk-card-body uk-box-shadow-medium uk-border-rounded">
+            <div class="uk-grid-divider uk-child-width-1-2@m" uk-grid>
+                <!-- Code Snippet Column -->
+                <div>
+                    <h4 class="uk-card-title uk-text-bold uk-margin-small-bottom">
+                        <span uk-icon="icon: code" class="uk-margin-small-right uk-text-primary"></span>
+                        Send Test Payload
+                    </h4>
+                    <p class="uk-text-meta uk-margin-remove-top">Test your endpoint using standard cURL or any HTTP client:</p>
+
+                    <div class="uk-position-relative uk-margin-top">
+                        <pre class="uk-background-secondary uk-light uk-padding-small uk-border-rounded"><code>@curlCommand</code></pre>
+                    </div>
+                </div>
+
+                <!-- URL Modifiers Column -->
+                <div>
+                    <h4 class="uk-card-title uk-text-bold uk-margin-small-bottom">
+                        <span uk-icon="icon: settings" class="uk-margin-small-right uk-text-warning"></span>
+                        Dynamic URL Overrides
+                    </h4>
+                    <p class="uk-text-meta uk-margin-remove-top">Control response behavior directly through URL parameters:</p>
+
+                    <ul class="uk-list uk-list-striped uk-text-small">
+                        <li>
+                            <code class="uk-text-danger">/force-500</code>
+                            <span class="uk-align-right uk-margin-remove">Forces an immediate 500 Internal Error</span>
+                        </li>
+                        <li>
+                            <code class="uk-text-warning">/404</code>
+                            <span class="uk-align-right uk-margin-remove">Returns a 404 Not Found status</span>
+                        </li>
+                        <li>
+                            <code class="uk-text-primary">?lottery=30</code>
+                            <span class="uk-align-right uk-margin-remove">Simulates a 30% random failure chance</span>
+                        </li>
+                        <li>
+                            <code class="uk-text-success">?delay=2000</code>
+                            <span class="uk-align-right uk-margin-remove">Injects 2000ms latency to test timeouts</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Grid -->
+<div class="uk-section uk-section-small">
+    <div class="uk-container">
+        <div class="uk-text-center uk-margin-medium-bottom">
+            <h2 class="uk-text-bold">Built for Developer Workflows</h2>
+            <p class="uk-text-muted">Everything you need to inspect, debug, and mock webhooks and email notifications.</p>
+        </div>
+
+        <div class="uk-grid-match uk-child-width-1-3@m uk-child-width-1-2@s" uk-grid>
+            <!-- Feature 1 -->
+            <div>
+                <div class="uk-card uk-card-default uk-card-body uk-card-hover uk-border-rounded">
+                    <div class="uk-text-primary uk-margin-small-bottom" uk-icon="icon: bolt; ratio: 1.5"></div>
+                    <h3 class="uk-card-title uk-margin-small-top uk-text-bold">Real-time Feed</h3>
+                    <p class="uk-text-muted uk-text-small">
+                        Watch webhooks arrive instantly using lightweight HTMX polling. Inspect headers, raw bodies, query parameters, and client IPs.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div>
+                <div class="uk-card uk-card-default uk-card-body uk-card-hover uk-border-rounded">
+                    <div class="uk-text-warning uk-margin-small-bottom" uk-icon="icon: warning; ratio: 1.5"></div>
+                    <h3 class="uk-card-title uk-margin-small-top uk-text-bold">Fault Lotteries</h3>
+                    <p class="uk-text-muted uk-text-small">
+                        Test your application's retry mechanisms by configuring a percentage-based failure lottery directly in the URL query string.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div>
+                <div class="uk-card uk-card-default uk-card-body uk-card-hover uk-border-rounded">
+                    <div class="uk-text-success uk-margin-small-bottom" uk-icon="icon: mail; ratio: 1.5"></div>
+                    <h3 class="uk-card-title uk-margin-small-top uk-text-bold">Inbound Email Receiver</h3>
+                    <p class="uk-text-muted uk-text-small">
+                        Send emails to <code>{uuid}@@inbound.wplay.dev</code> and inspect plain text, formatted HTML previews, raw MIME headers, and attachments.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div>
+                <div class="uk-card uk-card-default uk-card-body uk-card-hover uk-border-rounded">
+                    <div class="uk-text-danger uk-margin-small-bottom" uk-icon="icon: lock; ratio: 1.5"></div>
+                    <h3 class="uk-card-title uk-margin-small-top uk-text-bold">Protected Buckets</h3>
+                    <p class="uk-text-muted uk-text-small">
+                        Enable password protection or Basic Auth headers on sensitive buckets to prevent unauthorized endpoint viewing or unauthorized posts.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 5 -->
+            <div>
+                <div class="uk-card uk-card-default uk-card-body uk-card-hover uk-border-rounded">
+                    <div class="uk-text-secondary uk-margin-small-bottom" uk-icon="icon: receiver; ratio: 1.5"></div>
+                    <h3 class="uk-card-title uk-margin-small-top uk-text-bold">Localhost CLI Tunnel</h3>
+                    <p class="uk-text-muted uk-text-small">
+                        Use the companion C# CLI tool to forward live webhooks straight to your local development environment (`localhost:5000`).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 6 -->
+            <div>
+                <div class="uk-card uk-card-default uk-card-body uk-card-hover uk-border-rounded">
+                    <div class="uk-text-primary uk-margin-small-bottom" uk-icon="icon: refresh; ratio: 1.5"></div>
+                    <h3 class="uk-card-title uk-margin-small-top uk-text-bold">Custom Responses</h3>
+                    <p class="uk-text-muted uk-text-small">
+                        Configure default status codes, custom JSON response bodies, and HTTP headers returned to webhook triggers.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bottom Banner Call to Action -->
+<div class="uk-section uk-section-small uk-section-primary uk-light uk-margin-large-top">
+    <div class="uk-container uk-text-center">
+        <h3 class="uk-text-bold uk-margin-remove-bottom">Ready to test your webhooks?</h3>
+        <p class="uk-margin-small-top uk-margin-medium-bottom">Generate an endpoint in one click and start inspecting payloads immediately.</p>
+
+        <form asp-controller="Endpoint" asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="uk-button uk-button-default uk-button-large uk-text-bold">
+                <span uk-icon="icon: plus" class="uk-margin-small-right"></span> Create Endpoint Now
+            </button>
+        </form>
+    </div>
 </div>
