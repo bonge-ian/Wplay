@@ -5,64 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Wplay</title>
     <script type="importmap"></script>
+
+    <!-- Google Fonts: Google Sans Text & Google Sans Code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400..700&family=Google+Sans+Text:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="~/lib/uikit/css/uikit.min.css" />
+    <link rel="stylesheet" href="~/css/colors.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Wplay.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="uk-background-slate-50 uk-color-slate-800">
     @Html.AntiForgeryToken()
-    <header>
-        <div class="uk-box-shadow-small uk-background-default uk-margin-bottom">
-            <div class="uk-container">
-                <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
-                    <div class="uk-navbar-left">
-                        <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Home" asp-action="Index">Wplay</a>
-                        <ul class="uk-navbar-nav uk-visible@s">
-                            <li>
-                                <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li>
-                                <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                        </ul>
+
+    <!-- Top Navigation Header -->
+    <header class="uk-background-slate-950 uk-border-bottom uk-border-slate-800">
+        <div class="uk-container">
+            <nav class="uk-navbar-container uk-navbar-transparent uk-light" uk-navbar>
+                <div class="uk-navbar-left">
+                    <a class="uk-navbar-item uk-logo uk-text-bold uk-color-teal-400" asp-area="" asp-controller="Home" asp-action="Index">
+                        <span uk-icon="icon: bolt" class="uk-margin-small-right"></span>Wplay
+                    </a>
+                    <ul class="uk-navbar-nav uk-visible@s">
+                        <li>
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="uk-color-slate-300">Home</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Home" asp-action="Privacy" class="uk-color-slate-300">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="uk-navbar-right">
+                    <div class="uk-navbar-item uk-visible@s">
+                        <form asp-controller="Endpoint" asp-action="Create" method="post">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="uk-button uk-button-small uk-background-teal-600 uk-color-white uk-border-transparent uk-border-rounded">
+                                <span uk-icon="icon: plus; ratio: 0.8" class="uk-margin-xsmall-right"></span> New Bucket
+                            </button>
+                        </form>
                     </div>
 
-                    <!-- Mobile Toggle -->
-                    <div class="uk-navbar-right uk-hidden@s">
-                        <a class="uk-navbar-toggle" uk-navbar-toggle-icon uk-toggle="target: #mobile-nav"></a>
-                    </div>
-                </nav>
-            </div>
-        </div>
-
-        <!-- Mobile Navigation Drawer -->
-        <div id="mobile-nav" uk-offcanvas="overlay: true">
-            <div class="uk-offcanvas-bar">
-                <button class="uk-offcanvas-close" type="button" uk-close></button>
-                <ul class="uk-nav uk-nav-default uk-margin-top">
-                    <li class="uk-nav-header">Wplay</li>
-                    <li>
-                        <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                </ul>
-            </div>
+                    <a class="uk-navbar-toggle uk-hidden@s uk-color-slate-300" uk-navbar-toggle-icon uk-toggle="target: #mobile-nav"></a>
+                </div>
+            </nav>
         </div>
     </header>
 
-    <div class="uk-container uk-margin-medium-bottom">
+    <!-- Mobile Navigation Offcanvas -->
+    <div id="mobile-nav" uk-offcanvas="overlay: true">
+        <div class="uk-offcanvas-bar uk-background-slate-900">
+            <button class="uk-offcanvas-close uk-color-slate-400" type="button" uk-close></button>
+            <div class="uk-margin-bottom">
+                <span class="uk-text-bold uk-color-teal-400 uk-h4">Wplay</span>
+            </div>
+            <ul class="uk-nav uk-nav-default">
+                <li><a asp-controller="Home" asp-action="Index" class="uk-color-slate-200">Home</a></li>
+                <li><a asp-controller="Home" asp-action="Privacy" class="uk-color-slate-200">Privacy</a></li>
+            </ul>
+            <div class="uk-margin-top">
+                <form asp-controller="Endpoint" asp-action="Create" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="uk-button uk-background-teal-600 uk-color-white uk-width-1-1 uk-border-rounded">
+                        New Bucket
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Render Area -->
+    <div class="uk-margin-medium-bottom">
         <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="uk-section uk-section-xsmall uk-section-muted uk-margin-large-top">
-        <div class="uk-container uk-text-center uk-text-meta">
-            &copy; 2026 - Wplay - <a class="uk-link-muted" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!-- Footer -->
+    <footer class="uk-section uk-section-xsmall uk-background-slate-950 uk-border-top uk-border-slate-800">
+        <div class="uk-container uk-text-center uk-text-meta uk-color-slate-400">
+            &copy; 2026 Wplay &bull; Built with C#, HTMX & UIkit &bull; <a class="uk-color-teal-400" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/htmx/htmx.min.js"></script>
     <script src="~/lib/uikit/js/uikit.min.js"></script>
     <script src="~/lib/uikit/js/uikit-icons.min.js"></script>
