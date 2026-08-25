@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Wplay.Models.WebhookRequest>
+
+@if (!Model.Any())
+{
+    <div class="uk-card uk-card-body uk-background-white uk-border-slate-200 uk-border-rounded uk-text-center uk-padding-large">
+        <div class="uk-color-teal-500 uk-margin-small-bottom" uk-icon="icon: refresh; ratio: 2"></div>
+        <h4 class="uk-text-bold uk-color-slate-800 uk-margin-remove-bottom">Waiting for Requests</h4>
+        <p class="uk-color-slate-500 uk-text-small uk-margin-small-top">
+            Send a web request to your bucket URL to see it stream live here.
+        </p>
+    </div>
+}
+else
+{
+    <div class="uk-nav uk-nav-default">
+        @foreach (var request in Model)
+        {
+            var badgeColor = request.Method.ToUpper() switch
+            {
+                "POST" => "uk-background-teal-600",
+                "GET" => "uk-background-sky-600",
+                "PUT" => "uk-background-amber-500",
+                "DELETE" => "uk-background-rose-600",
+                _ => "uk-background-slate-600"
+            };
+
+            var statusColor = request.ResponseCode >= 200 && request.ResponseCode < 300
+                ? "uk-color-emerald-600"
+                : "uk-color-rose-600";
+
+            <a class="uk-card uk-card-body uk-background-white uk-border-slate-200 uk-border-rounded uk-margin-small-bottom uk-link-reset uk-display-block uk-padding-small hover-shadow"
+               hx-get="/webhooks/@request.Id"
+               hx-target="#details-pane"
+               hx-swap="innerHTML">
+                <div class="uk-flex uk-flex-between uk-flex-middle">
+                    <div class="uk-flex uk-flex-middle uk-grid-small" uk-grid>
+                        <div>
+                            <span class="uk-badge @badgeColor uk-color-white uk-text-bold">@request.Method</span>
+                        </div>
+                        <div>
+                            <span class="uk-text-bold uk-color-slate-900 uk-text-small">@request.IpAddress</span>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="uk-text-bold uk-text-small @statusColor">@request.ResponseCode</span>
+                    </div>
+                </div>
+                <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-xsmall-top uk-text-meta uk-color-slate-400">
+                    <span class="uk-text-truncate" style="max-width: 220px;">@request.Url</span>
+                    <span>@request.CreatedAt?.ToString("HH:mm:ss")</span>
+                </div>
+            </a>
+        }
+    </div>
+}

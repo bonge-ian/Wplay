@@ -1,0 +1,70 @@
+﻿@model Wplay.Models.WebhookRequest
+
+<div class="uk-card uk-card-body uk-background-white uk-border-slate-200 uk-border-rounded">
+    <!-- Header Summary -->
+    <div class="uk-flex uk-flex-between uk-flex-middle uk-border-bottom uk-border-slate-200 uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top">
+        <div>
+            <span class="uk-badge uk-background-teal-600 uk-color-white uk-text-bold uk-margin-small-right">@Model.Method</span>
+            <span class="uk-text-bold uk-color-slate-900">@Model.Url</span>
+        </div>
+        <button class="uk-button uk-button-small uk-background-rose-50 uk-color-rose-600 uk-border-rose-200 uk-border-rounded"
+                hx-delete="/webhooks/@Model.Id"
+                hx-target="#details-pane"
+                hx-swap="innerHTML">
+            Delete Log
+        </button>
+    </div>
+
+    <!-- Metadata Cards -->
+    <div class="uk-grid-small uk-child-width-1-3@s uk-margin-top" uk-grid>
+        <div>
+            <div class="uk-background-slate-50 uk-padding-small uk-border-rounded">
+                <span class="uk-text-meta uk-color-slate-500">Status Code</span>
+                <div class="uk-text-bold uk-color-slate-900">@Model.ResponseCode</div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-background-slate-50 uk-padding-small uk-border-rounded">
+                <span class="uk-text-meta uk-color-slate-500">Client IP</span>
+                <div class="uk-text-bold uk-color-slate-900">@(Model.IpAddress ?? "N/A")</div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-background-slate-50 uk-padding-small uk-border-rounded">
+                <span class="uk-text-meta uk-color-slate-500">Received At</span>
+                <div class="uk-text-bold uk-color-slate-900">@Model.CreatedAt?.ToString("yyyy-MM-dd HH:mm:ss")</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accordion Tabs for Headers, Params & Body -->
+    <ul class="uk-tab uk-margin-top" uk-switcher="connect: #request-tabs">
+        <li><a href="#" class="uk-text-bold">Body</a></li>
+        <li><a href="#" class="uk-text-bold">Headers</a></li>
+        <li><a href="#" class="uk-text-bold">Query Parameters</a></li>
+    </ul>
+
+    <ul id="request-tabs" class="uk-switcher uk-margin-top">
+        <!-- Tab 1: Body -->
+        <li>
+            @if (string.IsNullOrWhiteSpace(Model.Body))
+            {
+                <div class="uk-text-meta uk-color-slate-400">No request body provided.</div>
+            }
+            else
+            {
+                <pre class="uk-background-slate-950 uk-border-slate-800 uk-border-rounded uk-padding-small"><code>@Model.Body</code></pre>
+            }
+        </li>
+
+        <!-- Tab 2: Headers -->
+        <li>
+            <pre class="uk-background-slate-950 uk-border-slate-800 uk-border-rounded uk-padding-small"><code>@(Model.HeadersNode?.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }) ?? "{}")</code></pre>
+        </li>
+
+        <!-- Tab 3: Query Params -->
+        <li>
+            <pre class="uk-background-slate-950 uk-border-slate-800 uk-border-rounded uk-padding-small"><code>@(Model.QueryParametersNode?.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }) ?? "{}")</code></pre>
+        </li>
+    </ul>
+</div>

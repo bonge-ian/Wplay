@@ -1,0 +1,85 @@
+﻿@model Wplay.Models.Endpoint
+@{
+    ViewData["Title"] = Model.Name;
+    var initialWebhooks = ViewBag.InitialWebhooks as List<Wplay.Models.WebhookRequest> ?? new();
+    var ingressUrl = $"{Context.Request.Scheme}://{Context.Request.Host}/hp/{Model.Uuid}";
+}
+
+<div class="uk-section uk-section-xsmall">
+    <div class="uk-container">
+        
+        <!-- Top Bucket Target Info Header -->
+        <div class="uk-card uk-card-body uk-background-white uk-border-slate-200 uk-border-rounded uk-margin-medium-bottom">
+            <div class="uk-flex uk-flex-between uk-flex-middle uk-flex-wrap">
+                <div>
+                    <span class="uk-label uk-background-teal-100 uk-color-teal-800 uk-text-bold">Active Bucket</span>
+                    <h2 class="uk-text-bold uk-color-slate-900 uk-margin-xsmall-top uk-margin-remove-bottom">@Model.Name</h2>
+                </div>
+                <div>
+                    <button class="uk-button uk-button-small uk-background-rose-50 uk-color-rose-600 uk-border-rose-200 uk-border-rounded"
+                            hx-delete="/endpoints/@Model.Id/webhooks"
+                            hx-target="#request-list"
+                            hx-confirm="Are you sure you want to clear all request logs?">
+                        <span uk-icon="icon: trash; ratio: 0.8" class="uk-margin-xsmall-right"></span> Clear Feed
+                    </button>
+                </div>
+            </div>
+
+            <!-- Copyable Target URL Bar -->
+            <div class="uk-margin-top">
+                <label class="uk-form-label uk-text-bold uk-color-slate-700">Webhook Target URL</label>
+                <div class="uk-inline uk-width-1-1 uk-margin-xsmall-top">
+                    <input 
+                        class="uk-input uk-background-slate-50 uk-border-slate-300 uk-color-slate-900 uk-border-rounded"
+                        type="text" 
+                        id="target-url" 
+                        value="@ingressUrl" 
+                        readonly />
+                    <button class="uk-button uk-button-default uk-position-right uk-border-rounded" 
+                            type="button" 
+                            onclick="navigator.clipboard.writeText('@ingressUrl'); UIkit.notification({message: 'URL copied to clipboard!', status: 'success'});">
+                        <span uk-icon="icon: copy" class="uk-margin-xsmall-right"></span> Copy
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2-Column Split: Stream Feed (Left) & Inspector (Right) -->
+        <div class="uk-grid-medium" uk-grid>
+            <!-- Left Column: Polling Feed Container -->
+            <div class="uk-width-1-3@m">
+                <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
+                    <h4 class="uk-text-bold uk-color-slate-800 uk-margin-remove">Incoming Requests</h4>
+                    <span class="uk-text-meta uk-color-teal-600">
+                        <span uk-spinner="ratio: 0.5" class="uk-margin-xsmall-right"></span> Live Polling
+                    </span>
+                </div>
+
+                <!-- HTMX Polling Container -->
+                <div 
+                    id="request-list" 
+                    hx-get="/endpoints/@Model.Id/feed" 
+                    hx-trigger="every 2s" 
+                    hx-swap="innerHTML"
+                >
+                    @await Html.PartialAsync("_RequestListPartial", initialWebhooks)
+                </div>
+            </div>
+
+            <!-- Right Column: Inspector Details Pane -->
+            <div class="uk-width-2-3@m">
+                <h4 class="uk-text-bold uk-color-slate-800 uk-margin-small-bottom">Payload Inspector</h4>
+                <div id="details-pane">
+                    <div class="uk-card uk-card-body uk-background-white uk-border-slate-200 uk-border-rounded uk-text-center uk-padding-large">
+                        <div class="uk-color-slate-400 uk-margin-small-bottom" uk-icon="icon: search; ratio: 2"></div>
+                        <h4 class="uk-text-bold uk-color-slate-800 uk-margin-remove-bottom">No Log Selected</h4>
+                        <p class="uk-color-slate-500 uk-text-small uk-margin-small-top">
+                            Select a webhook request from the feed on the left to inspect its payload, headers, and query parameters.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
