@@ -7,7 +7,7 @@
 
 <div class="uk-section uk-section-xsmall">
     <div class="uk-container">
-        
+
         <!-- Top Bucket Target Info Header -->
         <div class="uk-card uk-card-body uk-background-white uk-border-slate-200 uk-border-rounded uk-margin-medium-bottom">
             <div class="uk-flex uk-flex-between uk-flex-middle uk-flex-wrap">
@@ -29,14 +29,14 @@
             <div class="uk-margin-top">
                 <label class="uk-form-label uk-text-bold uk-color-slate-700">Webhook Target URL</label>
                 <div class="uk-inline uk-width-1-1 uk-margin-xsmall-top">
-                    <input 
+                    <input
                         class="uk-input uk-background-slate-50 uk-border-slate-300 uk-color-slate-900 uk-border-rounded"
-                        type="text" 
-                        id="target-url" 
-                        value="@ingressUrl" 
+                        type="text"
+                        id="target-url"
+                        value="@ingressUrl"
                         readonly />
-                    <button class="uk-button uk-button-default uk-position-right uk-border-rounded" 
-                            type="button" 
+                    <button class="uk-button uk-button-default uk-position-right uk-border-rounded"
+                            type="button"
                             onclick="navigator.clipboard.writeText('@ingressUrl'); UIkit.notification({message: 'URL copied to clipboard!', status: 'success'});">
                         <span uk-icon="icon: copy" class="uk-margin-xsmall-right"></span> Copy
                     </button>
@@ -56,10 +56,10 @@
                 </div>
 
                 <!-- HTMX Polling Container -->
-                <div 
-                    id="request-list" 
-                    hx-get="/endpoints/@Model.Id/feed" 
-                    hx-trigger="every 2s" 
+                <div
+                    id="request-list"
+                    hx-get="/endpoints/@Model.Id/feed"
+                    hx-trigger="every 2s"
                     hx-swap="innerHTML"
                 >
                     @await Html.PartialAsync("_RequestListPartial", initialWebhooks)
