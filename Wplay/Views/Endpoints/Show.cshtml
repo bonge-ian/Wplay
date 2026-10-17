@@ -5,81 +5,73 @@
     var ingressUrl = $"{Context.Request.Scheme}://{Context.Request.Host}/hp/{Model.Uuid}";
 }
 
-<div class="uk-section uk-section-xsmall">
-    <div class="uk-container">
-
-        <!-- Top Bucket Target Info Header -->
-        <div class="uk-card uk-card-body uk-background-white uk-border-slate-200 uk-border-rounded uk-margin-medium-bottom">
-            <div class="uk-flex uk-flex-between uk-flex-middle uk-flex-wrap">
-                <div>
-                    <span class="uk-label uk-background-teal-100 uk-color-teal-800 uk-text-bold">Active Bucket</span>
-                    <h2 class="uk-text-bold uk-color-slate-900 uk-margin-xsmall-top uk-margin-remove-bottom">@Model.Name</h2>
-                </div>
-                <div>
-                    <button class="uk-button uk-button-small uk-background-rose-50 uk-color-rose-600 uk-border-rose-200 uk-border-rounded"
-                            hx-delete="/endpoints/@Model.Id/webhooks"
-                            hx-target="#request-list"
-                            hx-confirm="Are you sure you want to clear all request logs?">
-                        <span uk-icon="icon: trash; ratio: 0.8" class="uk-margin-xsmall-right"></span> Clear Feed
-                    </button>
-                </div>
+<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <section class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-7">
+        <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
+            <div>
+                <span class="inline-flex rounded-full bg-primary-tint px-3 py-1 text-xs font-semibold text-primary-strong">Active Bucket</span>
+                <h1 class="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">@Model.Name</h1>
             </div>
-
-            <!-- Copyable Target URL Bar -->
-            <div class="uk-margin-top">
-                <label class="uk-form-label uk-text-bold uk-color-slate-700">Webhook Target URL</label>
-                <div class="uk-inline uk-width-1-1 uk-margin-xsmall-top">
-                    <input
-                        class="uk-input uk-background-slate-50 uk-border-slate-300 uk-color-slate-900 uk-border-rounded"
-                        type="text"
-                        id="target-url"
-                        value="@ingressUrl"
-                        readonly />
-                    <button class="uk-button uk-button-default uk-position-right uk-border-rounded"
-                            type="button"
-                            onclick="navigator.clipboard.writeText('@ingressUrl'); UIkit.notification({message: 'URL copied to clipboard!', status: 'success'});">
-                        <span uk-icon="icon: copy" class="uk-margin-xsmall-right"></span> Copy
-                    </button>
-                </div>
-            </div>
+            <button type="button"
+                    class="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-danger-tint bg-danger-tint px-4 py-2 text-sm font-semibold text-danger transition hover:border-danger hover:bg-danger hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger"
+                    hx-delete="/endpoints/@Model.Id/webhooks"
+                    hx-target="#request-list"
+                    hx-confirm="Are you sure you want to clear all request logs?">
+                <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 6h18m-2 0-.9 14H5.9L5 6m4 0V4h6v2m-5 4v6m4-6v6" />
+                </svg>
+                Clear Feed
+            </button>
         </div>
 
-        <!-- 2-Column Split: Stream Feed (Left) & Inspector (Right) -->
-        <div class="uk-grid-medium" uk-grid>
-            <!-- Left Column: Polling Feed Container -->
-            <div class="uk-width-1-3@m">
-                <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
-                    <h4 class="uk-text-bold uk-color-slate-800 uk-margin-remove">Incoming Requests</h4>
-                    <span class="uk-text-meta uk-color-teal-600">
-                        <span uk-spinner="ratio: 0.5" class="uk-margin-xsmall-right"></span> Live Polling
-                    </span>
-                </div>
-
-                <!-- HTMX Polling Container -->
-                <div
-                    id="request-list"
-                    hx-get="/endpoints/@Model.Id/feed"
-                    hx-trigger="every 2s"
-                    hx-swap="innerHTML"
-                >
-                    @await Html.PartialAsync("_RequestListPartial", initialWebhooks)
-                </div>
-            </div>
-
-            <!-- Right Column: Inspector Details Pane -->
-            <div class="uk-width-2-3@m">
-                <h4 class="uk-text-bold uk-color-slate-800 uk-margin-small-bottom">Payload Inspector</h4>
-                <div id="details-pane">
-                    <div class="uk-card uk-card-body uk-background-white uk-border-slate-200 uk-border-rounded uk-text-center uk-padding-large">
-                        <div class="uk-color-slate-400 uk-margin-small-bottom" uk-icon="icon: search; ratio: 2"></div>
-                        <h4 class="uk-text-bold uk-color-slate-800 uk-margin-remove-bottom">No Log Selected</h4>
-                        <p class="uk-color-slate-500 uk-text-small uk-margin-small-top">
-                            Select a webhook request from the feed on the left to inspect its payload, headers, and query parameters.
-                        </p>
-                    </div>
-                </div>
+        <div class="mt-6">
+            <label for="target-url" class="block text-sm font-semibold text-text-secondary">Webhook Target URL</label>
+            <div class="mt-2 flex flex-col gap-2 sm:flex-row">
+                <input type="text" id="target-url" value="@ingressUrl" readonly
+                       class="min-h-11 min-w-0 flex-1 rounded-lg border border-border-strong bg-surface-2 px-3 py-2 font-mono text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+                <button type="button" data-copy-target="#target-url" data-copy-message="Webhook URL copied"
+                        class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border-strong bg-surface px-4 py-2 text-sm font-semibold text-foreground transition hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+                    <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="8" y="8" width="13" height="13" rx="2" />
+                        <path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" />
+                    </svg>
+                    Copy
+                </button>
             </div>
         </div>
+    </section>
 
+    <div class="mt-8 grid gap-8 lg:grid-cols-[minmax(18rem,0.4fr)_minmax(0,1fr)]">
+        <section aria-labelledby="incoming-requests-heading">
+            <div class="mb-3 flex items-center justify-between gap-3">
+                <h2 id="incoming-requests-heading" class="font-bold text-foreground">Incoming Requests</h2>
+                <span role="status" class="inline-flex items-center gap-2 text-xs font-medium text-primary">
+                    <span aria-hidden="true" class="size-2 rounded-full bg-primary motion-safe:animate-pulse"></span>
+                    Live Polling
+                </span>
+            </div>
+            <div id="request-list"
+                 hx-get="/endpoints/@Model.Id/feed"
+                 hx-trigger="every 2s"
+                 hx-swap="innerHTML">
+                @await Html.PartialAsync("_RequestListPartial", initialWebhooks)
+            </div>
+        </section>
+
+        <section aria-labelledby="payload-inspector-heading">
+            <h2 id="payload-inspector-heading" class="mb-3 font-bold text-foreground">Payload Inspector</h2>
+            <div id="details-pane">
+                <div class="flex min-h-72 flex-col items-center justify-center rounded-2xl border border-dashed border-border-strong bg-surface px-6 py-12 text-center">
+                    <svg aria-hidden="true" class="mb-4 size-8 text-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                        <circle cx="10.8" cy="10.8" r="6.8" />
+                        <path d="m16 16 5 5" />
+                    </svg>
+                    <h3 class="font-semibold text-foreground">No Log Selected</h3>
+                    <p class="mt-2 max-w-sm text-sm leading-6 text-text-secondary">
+                        Select a webhook request from the feed on the left to inspect its payload, headers, and query parameters.
+                    </p>
+                </div>
+            </div>
+        </section>
     </div>
 </div>

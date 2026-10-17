@@ -2,10 +2,12 @@
 @import "franken-ui/css/franken-ui.css";
 
 @source "../../Views/**/*.cshtml";
+@source "./**/*.js";
 
 @theme inline {
   --font-sans: "Google Sans Flex", "Google Sans", ui-sans-serif, system-ui, sans-serif;
   --font-code: var(--code-font);
+  --font-mono: var(--code-font);
 
   --color-background: var(--bg);
   --color-foreground: var(--text);

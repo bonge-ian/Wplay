@@ -2,54 +2,51 @@
 
 @if (!Model.Any())
 {
-    <div class="uk-card uk-card-body uk-background-white uk-border-slate-200 uk-border-rounded uk-text-center uk-padding-large">
-        <div class="uk-color-teal-500 uk-margin-small-bottom" uk-icon="icon: refresh; ratio: 2"></div>
-        <h4 class="uk-text-bold uk-color-slate-800 uk-margin-remove-bottom">Waiting for Requests</h4>
-        <p class="uk-color-slate-500 uk-text-small uk-margin-small-top">
+    <div class="flex min-h-56 flex-col items-center justify-center rounded-2xl border border-dashed border-border-strong bg-surface px-6 py-10 text-center">
+        <svg aria-hidden="true" class="mb-4 size-8 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M20 11a8 8 0 0 0-14.9-4M4 4v4h4m-4 5a8 8 0 0 0 14.9 4M20 20v-4h-4" />
+        </svg>
+        <h3 class="font-semibold text-foreground">Waiting for Requests</h3>
+        <p class="mt-2 max-w-xs text-sm leading-6 text-text-secondary">
             Send a web request to your bucket URL to see it stream live here.
         </p>
     </div>
 }
 else
 {
-    <div class="uk-nav uk-nav-default">
+    <div class="flex flex-col gap-2">
         @foreach (var request in Model)
         {
             var badgeColor = request.Method.ToUpper() switch
             {
-                "POST" => "uk-background-teal-600",
-                "GET" => "uk-background-sky-600",
-                "PUT" => "uk-background-amber-500",
-                "DELETE" => "uk-background-rose-600",
-                _ => "uk-background-slate-600"
+                "POST" => "bg-primary-hover text-white",
+                "GET" => "bg-sky-700 text-white",
+                "PUT" => "bg-ochre-100 text-ochre-900",
+                "DELETE" => "bg-danger text-white",
+                _ => "bg-fog-700 text-white"
             };
 
             var statusColor = request.ResponseCode >= 200 && request.ResponseCode < 300
-                ? "uk-color-emerald-600"
-                : "uk-color-rose-600";
+                ? "text-moss-700"
+                : "text-danger";
 
-            <a class="uk-card uk-card-body uk-background-white uk-border-slate-200 uk-border-rounded uk-margin-small-bottom uk-link-reset uk-display-block uk-padding-small hover-shadow"
+            <button type="button"
+               class="w-full rounded-xl border border-border bg-surface p-4 text-left transition hover:border-primary/50 hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                hx-get="/webhooks/@request.Id"
                hx-target="#details-pane"
                hx-swap="innerHTML">
-                <div class="uk-flex uk-flex-between uk-flex-middle">
-                    <div class="uk-flex uk-flex-middle uk-grid-small" uk-grid>
-                        <div>
-                            <span class="uk-badge @badgeColor uk-color-white uk-text-bold">@request.Method</span>
-                        </div>
-                        <div>
-                            <span class="uk-text-bold uk-color-slate-900 uk-text-small">@request.IpAddress</span>
-                        </div>
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex min-w-0 items-center gap-3">
+                        <span class="shrink-0 rounded-md px-2 py-1 text-xs font-bold @badgeColor">@request.Method</span>
+                        <span class="truncate text-sm font-semibold text-foreground">@request.IpAddress</span>
                     </div>
-                    <div>
-                        <span class="uk-text-bold uk-text-small @statusColor">@request.ResponseCode</span>
-                    </div>
+                    <span class="shrink-0 text-sm font-bold @statusColor">@request.ResponseCode</span>
                 </div>
-                <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-xsmall-top uk-text-meta uk-color-slate-400">
-                    <span class="uk-text-truncate" style="max-width: 220px;">@request.Url</span>
-                    <span>@request.CreatedAt?.ToString("HH:mm:ss")</span>
+                <div class="mt-3 flex items-center justify-between gap-3 text-xs text-text-muted">
+                    <span class="max-w-[16rem] truncate font-mono">@request.Url</span>
+                    <time class="shrink-0" datetime="@request.CreatedAt?.ToString("O")">@request.CreatedAt?.ToString("HH:mm:ss")</time>
                 </div>
-            </a>
+            </button>
         }
     </div>
 }

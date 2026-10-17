@@ -6,12 +6,12 @@ import frankenUi from "franken-ui/plugin-vite";
 export default defineConfig({
   root: resolve(import.meta.dirname, "frontend"),
   plugins: [
-    tailwindcss(),
     frankenUi({
       preflight: false,
       layer: true,
       layerExceptions: ["chart"],
     }),
+    tailwindcss(),
   ],
   server: {
     strictPort: true,

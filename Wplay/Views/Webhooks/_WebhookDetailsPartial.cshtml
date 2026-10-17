@@ -1,13 +1,12 @@
 ﻿@model Wplay.Models.WebhookRequest
 
-<div class="uk-card uk-card-body uk-background-white uk-border-slate-200 uk-border-rounded">
-    <!-- Header Summary -->
-    <div class="uk-flex uk-flex-between uk-flex-middle uk-border-bottom uk-border-slate-200 uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top">
-        <div>
-            <span class="uk-badge uk-background-teal-600 uk-color-white uk-text-bold uk-margin-small-right">@Model.Method</span>
-            <span class="uk-text-bold uk-color-slate-900">@Model.Url</span>
+<article class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-7">
+    <div class="flex flex-col justify-between gap-3 border-b border-border pb-4 sm:flex-row sm:items-start">
+        <div class="min-w-0">
+            <span class="mr-2 inline-flex rounded-md bg-primary-hover px-2 py-1 text-xs font-bold text-white">@Model.Method</span>
+            <span class="break-all text-sm font-semibold text-foreground">@Model.Url</span>
         </div>
-        <button class="uk-button uk-button-small uk-background-rose-50 uk-color-rose-600 uk-border-rose-200 uk-border-rounded"
+        <button type="button" class="shrink-0 rounded-lg border border-danger-tint bg-danger-tint px-3 py-2 text-sm font-semibold text-danger transition hover:bg-danger hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger"
                 hx-delete="/webhooks/@Model.Id"
                 hx-target="#details-pane"
                 hx-swap="innerHTML">
@@ -15,56 +14,57 @@
         </button>
     </div>
 
-    <!-- Metadata Cards -->
-    <div class="uk-grid-small uk-child-width-1-3@s uk-margin-top" uk-grid>
-        <div>
-            <div class="uk-background-slate-50 uk-padding-small uk-border-rounded">
-                <span class="uk-text-meta uk-color-slate-500">Status Code</span>
-                <div class="uk-text-bold uk-color-slate-900">@Model.ResponseCode</div>
-            </div>
+    <dl class="mt-5 grid gap-3 sm:grid-cols-3">
+        <div class="rounded-lg bg-surface-2 p-3">
+            <dt class="text-xs font-medium text-text-secondary">Status Code</dt>
+            <dd class="mt-1 font-semibold text-foreground">@Model.ResponseCode</dd>
         </div>
-        <div>
-            <div class="uk-background-slate-50 uk-padding-small uk-border-rounded">
-                <span class="uk-text-meta uk-color-slate-500">Client IP</span>
-                <div class="uk-text-bold uk-color-slate-900">@(Model.IpAddress ?? "N/A")</div>
-            </div>
+        <div class="rounded-lg bg-surface-2 p-3">
+            <dt class="text-xs font-medium text-text-secondary">Client IP</dt>
+            <dd class="mt-1 font-semibold text-foreground">@(Model.IpAddress ?? "N/A")</dd>
         </div>
-        <div>
-            <div class="uk-background-slate-50 uk-padding-small uk-border-rounded">
-                <span class="uk-text-meta uk-color-slate-500">Received At</span>
-                <div class="uk-text-bold uk-color-slate-900">@Model.CreatedAt?.ToString("yyyy-MM-dd HH:mm:ss")</div>
-            </div>
+        <div class="rounded-lg bg-surface-2 p-3">
+            <dt class="text-xs font-medium text-text-secondary">Received At</dt>
+            <dd class="mt-1 font-semibold text-foreground">@Model.CreatedAt?.ToString("yyyy-MM-dd HH:mm:ss")</dd>
         </div>
-    </div>
+    </dl>
 
-    <!-- Accordion Tabs for Headers, Params & Body -->
-    <ul class="uk-tab uk-margin-top" uk-switcher="connect: #request-tabs">
-        <li><a href="#" class="uk-text-bold">Body</a></li>
-        <li><a href="#" class="uk-text-bold">Headers</a></li>
-        <li><a href="#" class="uk-text-bold">Query Parameters</a></li>
-    </ul>
+    <div data-tabs class="mt-6">
+        <div role="tablist" aria-label="Request data" class="flex gap-1 overflow-x-auto border-b border-border">
+            <button type="button" id="body-tab" role="tab" aria-selected="true" aria-controls="body-panel" tabindex="0"
+                    data-tab-target="body-panel"
+                    class="shrink-0 border-b-2 border-transparent px-3 py-2.5 text-sm font-semibold text-text-secondary hover:text-foreground aria-selected:border-primary aria-selected:text-primary-strong focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary">
+                Body
+            </button>
+            <button type="button" id="headers-tab" role="tab" aria-selected="false" aria-controls="headers-panel" tabindex="-1"
+                    data-tab-target="headers-panel"
+                    class="shrink-0 border-b-2 border-transparent px-3 py-2.5 text-sm font-semibold text-text-secondary hover:text-foreground aria-selected:border-primary aria-selected:text-primary-strong focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary">
+                Headers
+            </button>
+            <button type="button" id="query-tab" role="tab" aria-selected="false" aria-controls="query-panel" tabindex="-1"
+                    data-tab-target="query-panel"
+                    class="shrink-0 border-b-2 border-transparent px-3 py-2.5 text-sm font-semibold text-text-secondary hover:text-foreground aria-selected:border-primary aria-selected:text-primary-strong focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary">
+                Query Parameters
+            </button>
+        </div>
 
-    <ul id="request-tabs" class="uk-switcher uk-margin-top">
-        <!-- Tab 1: Body -->
-        <li>
+        <div id="body-panel" role="tabpanel" aria-labelledby="body-tab" tabindex="0" class="mt-4 focus-visible:outline-2 focus-visible:outline-primary">
             @if (string.IsNullOrWhiteSpace(Model.Body))
             {
-                <div class="uk-text-meta uk-color-slate-400">No request body provided.</div>
+                <p class="text-sm text-text-muted">No request body provided.</p>
             }
             else
             {
-                <pre class="uk-background-slate-950 uk-border-slate-800 uk-border-rounded uk-padding-small"><code>@Model.Body</code></pre>
+                <pre class="max-h-[32rem] overflow-auto rounded-xl bg-fog-950 p-4 text-sm leading-6 text-fog-100"><code>@Model.Body</code></pre>
             }
-        </li>
+        </div>
 
-        <!-- Tab 2: Headers -->
-        <li>
-            <pre class="uk-background-slate-950 uk-border-slate-800 uk-border-rounded uk-padding-small"><code>@(Model.HeadersNode?.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }) ?? "{}")</code></pre>
-        </li>
+        <div id="headers-panel" role="tabpanel" aria-labelledby="headers-tab" tabindex="0" hidden class="mt-4 focus-visible:outline-2 focus-visible:outline-primary">
+            <pre class="max-h-[32rem] overflow-auto rounded-xl bg-fog-950 p-4 text-sm leading-6 text-fog-100"><code>@(Model.HeadersNode?.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }) ?? "{}")</code></pre>
+        </div>
 
-        <!-- Tab 3: Query Params -->
-        <li>
-            <pre class="uk-background-slate-950 uk-border-slate-800 uk-border-rounded uk-padding-small"><code>@(Model.QueryParametersNode?.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }) ?? "{}")</code></pre>
-        </li>
-    </ul>
-</div>
+        <div id="query-panel" role="tabpanel" aria-labelledby="query-tab" tabindex="0" hidden class="mt-4 focus-visible:outline-2 focus-visible:outline-primary">
+            <pre class="max-h-[32rem] overflow-auto rounded-xl bg-fog-950 p-4 text-sm leading-6 text-fog-100"><code>@(Model.QueryParametersNode?.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }) ?? "{}")</code></pre>
+        </div>
+    </div>
+</article>

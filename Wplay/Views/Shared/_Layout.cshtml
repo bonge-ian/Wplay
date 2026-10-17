@@ -27,7 +27,6 @@
     <title>@ViewData["Title"] - Wplay</title>
     <script type="importmap"></script>
 
-    <!-- Google Sans Flex and Google Sans Code -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..700&family=Google+Sans+Code:wght@400..700&display=swap" rel="stylesheet">
@@ -39,106 +38,89 @@
             <link rel="stylesheet" href="@($"/dist/{cssFile}")" />
         }
     }
-    <link rel="stylesheet" href="~/lib/uikit/css/uikit.min.css" />
-    <link rel="stylesheet" href="~/css/colors.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Wplay.styles.css" asp-append-version="true" />
 </head>
-<body class="uk-background-slate-50 uk-color-slate-800">
+<body class="min-h-screen bg-background font-sans text-foreground antialiased">
     @Html.AntiForgeryToken()
 
-    <!-- Top Navigation Header -->
-    <header class="uk-background-slate-950 uk-border-bottom uk-border-slate-800">
-        <div class="uk-container">
-            <nav class="uk-navbar-container uk-navbar-transparent uk-light" uk-navbar>
-                <div class="uk-navbar-left">
-                    <a class="uk-navbar-item uk-logo uk-text-bold uk-color-teal-400" asp-area="" asp-controller="Home" asp-action="Index">
-                        <span uk-icon="icon: bolt" class="uk-margin-small-right"></span>Wplay
-                    </a>
-                    <ul class="uk-navbar-nav uk-visible@s">
-                        <li>
-                            <a asp-area="" asp-controller="Home" asp-action="Index" class="uk-color-slate-300">Home</a>
-                        </li>
-                        <li>
-                            <a asp-area="" asp-controller="Home" asp-action="Privacy" class="uk-color-slate-300">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+    <header class="border-b border-fog-800 bg-fog-950 text-fog-100">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-8">
+                <a class="inline-flex items-center gap-2 text-xl font-bold tracking-tight text-cerulean-400 transition hover:text-cerulean-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cerulean-400"
+                   asp-area="" asp-controller="Home" asp-action="Index">
+                    <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none">
+                        <path d="M13.2 2 4.8 13h6.1L10.8 22l8.4-11h-6.1L13.2 2Z" fill="currentColor" />
+                    </svg>
+                    Wplay
+                </a>
+                <nav aria-label="Main navigation" class="hidden items-center gap-6 text-sm font-medium md:flex">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="text-fog-300 transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cerulean-400">Home</a>
+                    <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-fog-300 transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cerulean-400">Privacy</a>
+                </nav>
+            </div>
 
-                <div class="uk-navbar-right">
-                    <div class="uk-navbar-item uk-visible@s">
-                        <form asp-controller="Endpoints" asp-action="Create" method="post">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="uk-button uk-button-small uk-background-teal-600 uk-color-white uk-border-transparent uk-border-rounded">
-                                <span uk-icon="icon: plus; ratio: 0.8" class="uk-margin-xsmall-right"></span> New Bucket
-                            </button>
-                        </form>
-                    </div>
+            <div class="flex items-center gap-3">
+                <form asp-controller="Endpoints" asp-action="Create" method="post" class="hidden sm:block">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-primary-hover px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cerulean-300">
+                        <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14" />
+                        </svg>
+                        New Bucket
+                    </button>
+                </form>
+                <button type="button" data-mobile-nav-toggle aria-expanded="false" aria-controls="mobile-nav"
+                        aria-label="Open navigation menu"
+                        class="inline-flex size-10 items-center justify-center rounded-lg text-fog-200 transition hover:bg-fog-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cerulean-400 md:hidden">
+                    <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
 
-                    <a class="uk-navbar-toggle uk-hidden@s uk-color-slate-300" uk-navbar-toggle-icon uk-toggle="target: #mobile-nav"></a>
-                </div>
+        <div id="mobile-nav" class="hidden border-t border-fog-800 px-4 py-4 md:hidden">
+            <nav aria-label="Mobile navigation" class="mx-auto flex max-w-7xl flex-col gap-1">
+                <a asp-controller="Home" asp-action="Index" class="rounded-lg px-3 py-2 text-sm font-medium text-fog-200 hover:bg-fog-900 focus-visible:outline-2 focus-visible:outline-cerulean-400">Home</a>
+                <a asp-controller="Home" asp-action="Privacy" class="rounded-lg px-3 py-2 text-sm font-medium text-fog-200 hover:bg-fog-900 focus-visible:outline-2 focus-visible:outline-cerulean-400">Privacy</a>
+                <form asp-controller="Endpoints" asp-action="Create" method="post" class="mt-2">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="w-full rounded-lg bg-primary-hover px-4 py-2.5 text-left text-sm font-semibold text-white hover:bg-primary-strong focus-visible:outline-2 focus-visible:outline-cerulean-300">
+                        New Bucket
+                    </button>
+                </form>
             </nav>
         </div>
     </header>
 
-    <!-- Mobile Navigation Offcanvas -->
-    <div id="mobile-nav" uk-offcanvas="overlay: true">
-        <div class="uk-offcanvas-bar uk-background-slate-900">
-            <button class="uk-offcanvas-close uk-color-slate-400" type="button" uk-close></button>
-            <div class="uk-margin-bottom">
-                <span class="uk-text-bold uk-color-teal-400 uk-h4">Wplay</span>
-            </div>
-            <ul class="uk-nav uk-nav-default">
-                <li><a asp-controller="Home" asp-action="Index" class="uk-color-slate-200">Home</a></li>
-                <li><a asp-controller="Home" asp-action="Privacy" class="uk-color-slate-200">Privacy</a></li>
-            </ul>
-            <div class="uk-margin-top">
-                <form asp-controller="Endpoint" asp-action="Create" method="post">
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class="uk-button uk-background-teal-600 uk-color-white uk-width-1-1 uk-border-rounded">
-                        New Bucket
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
+    <main role="main" class="min-h-[calc(100vh-9rem)]">
+        @RenderBody()
+    </main>
 
-    <!-- View Render Area -->
-    <div class="uk-margin-medium-bottom">
-        <main role="main">
-            @RenderBody()
-        </main>
-    </div>
-
-    <!-- Footer -->
-    <footer class="uk-section uk-section-xsmall uk-background-slate-950 uk-border-top uk-border-slate-800">
-        <div class="uk-container uk-text-center uk-text-meta uk-color-slate-400">
-            &copy; 2026 Wplay &bull; Built with C#, HTMX & UIkit &bull; <a class="uk-color-teal-400" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-t border-fog-800 bg-fog-950 px-4 py-5 text-fog-400 sm:px-6 lg:px-8">
+        <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 text-center text-xs sm:flex-row sm:text-left">
+            <span>&copy; 2026 Wplay &bull; Built with C#, HTMX & Tailwind CSS</span>
+            <a class="font-medium text-cerulean-400 hover:text-cerulean-300 focus-visible:outline-2 focus-visible:outline-cerulean-400" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 
-    <script src="~/lib/uikit/js/uikit.min.js"></script>
-    <script src="~/lib/uikit/js/uikit-icons.min.js"></script>
+    <div id="app-notification" role="status" aria-live="polite"
+         class="pointer-events-none fixed bottom-4 right-4 z-50 hidden max-w-sm rounded-lg bg-fog-900 px-4 py-3 text-sm font-medium text-white shadow-lg">
+    </div>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                document.body.addEventListener('htmx:configRequest', (event) => {
-                    const tokenElement = document.querySelector('input[name="__RequestVerificationToken"]');
-                    if (tokenElement) {
-                        event.detail.headers['RequestVerificationToken'] = tokenElement.value;
-                    }
-                });
-            });
-            document.addEventListener("htmx:confirm", function(e) {
-                if (!e.detail.question) return;
-
-                e.preventDefault();
-
-                UIkit.modal.confirm(`${e.detail.question}`).then(function() {
-                    e.detail.issueRequest(true);
-                }, function () {
-                });
-            });
+        document.body.addEventListener("htmx:configRequest", (event) => {
+            const tokenElement = document.querySelector('input[name="__RequestVerificationToken"]');
+            if (tokenElement) {
+                event.detail.headers["RequestVerificationToken"] = tokenElement.value;
+            }
+        });
+        document.addEventListener("htmx:confirm", (event) => {
+            if (!event.detail.question) return;
+            event.preventDefault();
+            if (window.confirm(event.detail.question)) {
+                event.detail.issueRequest(true);
+            }
+        });
     </script>
     @if (WebHostEnvironment.IsDevelopment())
     {
