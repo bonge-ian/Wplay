@@ -285,6 +285,7 @@ FakesAssemblies/
 .ntvs_analysis.dat
 node_modules/
 Wplay/wwwroot/dist/
+Wplay/frontend/src/style.output.css
 
 # Visual Studio 6 build log
 *.plg
