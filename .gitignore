@@ -286,6 +286,7 @@ FakesAssemblies/
 node_modules/
 Wplay/wwwroot/dist/
 Wplay/frontend/src/style.output.css
+Wplay/tailwind.extension.json
 
 # Visual Studio 6 build log
 *.plg
