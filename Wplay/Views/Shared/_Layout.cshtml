@@ -1,4 +1,25 @@
-﻿<!DOCTYPE html>
+﻿@using System.Text.Json
+@inject IWebHostEnvironment WebHostEnvironment
+@{
+    string? viteEntryFile = null;
+    string[] viteCssFiles = [];
+
+    if (!WebHostEnvironment.IsDevelopment())
+    {
+        var manifestPath = System.IO.Path.Combine(WebHostEnvironment.WebRootPath, "dist", ".vite", "manifest.json");
+        using var manifest = JsonDocument.Parse(await System.IO.File.ReadAllTextAsync(manifestPath));
+        var entry = manifest.RootElement.GetProperty("src/main.js");
+        viteEntryFile = entry.GetProperty("file").GetString()
+            ?? throw new InvalidDataException("The Vite manifest entry has no output file.");
+        if (entry.TryGetProperty("css", out var cssFiles))
+        {
+            viteCssFiles = cssFiles.EnumerateArray()
+                .Select(file => file.GetString() ?? throw new InvalidDataException("The Vite manifest contains an invalid CSS file."))
+                .ToArray();
+        }
+    }
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,11 +27,18 @@
     <title>@ViewData["Title"] - Wplay</title>
     <script type="importmap"></script>
 
-    <!-- Google Fonts: Google Sans Text & Google Sans Code -->
+    <!-- Google Sans Flex and Google Sans Code -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400..700&family=Google+Sans+Text:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..700&family=Google+Sans+Code:wght@400..700&display=swap" rel="stylesheet">
 
+    @if (!WebHostEnvironment.IsDevelopment())
+    {
+        foreach (var cssFile in viteCssFiles)
+        {
+            <link rel="stylesheet" href="@($"/dist/{cssFile}")" />
+        }
+    }
     <link rel="stylesheet" href="~/lib/uikit/css/uikit.min.css" />
     <link rel="stylesheet" href="~/css/colors.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -89,7 +117,6 @@
         </div>
     </footer>
 
-    <script src="~/lib/htmx/htmx.min.js"></script>
     <script src="~/lib/uikit/js/uikit.min.js"></script>
     <script src="~/lib/uikit/js/uikit-icons.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -113,6 +140,15 @@
                 });
             });
     </script>
+    @if (WebHostEnvironment.IsDevelopment())
+    {
+        <script type="module" src="http://localhost:5173/@@vite/client"></script>
+        <script type="module" src="http://localhost:5173/src/main.js"></script>
+    }
+    else
+    {
+        <script type="module" src="@($"/dist/{viteEntryFile}")"></script>
+    }
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

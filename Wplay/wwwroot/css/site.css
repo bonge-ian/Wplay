@@ -1,4 +1,3 @@
-/* Global Body & UIkit Font Overrides */
 body,
 html,
 h1, h2, h3, h4, h5, h6,
@@ -6,15 +5,14 @@ h1, h2, h3, h4, h5, h6,
 .uk-card-title,
 .uk-button,
 input, select, textarea {
-    font-family: 'Google Sans Text', 'Google Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-family: "Google Sans Flex", "Google Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* Code & Monospace Font Overrides */
 code,
 pre,
 kbd,
 samp,
 .uk-code,
 pre code {
-    font-family: 'Google Sans Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace !important;
+    font-family: var(--code-font);
 }

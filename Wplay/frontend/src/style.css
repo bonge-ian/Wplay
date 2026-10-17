@@ -1,0 +1,143 @@
+@import "tailwindcss";
+@import "franken-ui/css/franken-ui.css";
+
+@source "../../Views/**/*.cshtml";
+
+@theme inline {
+  --font-sans: "Google Sans Flex", "Google Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-code: var(--code-font);
+
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text-secondary: var(--text-2);
+  --color-text-muted: var(--text-3);
+  --color-primary: var(--teal);
+  --color-primary-hover: var(--teal-dark);
+  --color-primary-strong: var(--teal-darker);
+  --color-primary-tint: var(--teal-tint);
+  --color-primary-tint-strong: var(--teal-tint-strong);
+  --color-warning: var(--amber);
+  --color-warning-tint: var(--amber-tint);
+  --color-danger: var(--red);
+  --color-danger-tint: var(--red-tint);
+  --color-success: var(--green);
+  --color-success-tint: var(--green-tint);
+}
+
+@theme {
+  --color-cerulean-50: #eefefe;
+  --color-cerulean-100: #d3fafc;
+  --color-cerulean-200: #abf3fb;
+  --color-cerulean-300: #7ae5f7;
+  --color-cerulean-400: #49cdeb;
+  --color-cerulean-500: #33b7e8;
+  --color-cerulean-600: #0a8fbf;
+  --color-cerulean-700: #076c92;
+  --color-cerulean-800: #004f6c;
+  --color-cerulean-900: #00384e;
+  --color-cerulean-950: #00212f;
+
+  --color-fog-50: #f5f7f8;
+  --color-fog-100: #edf1f3;
+  --color-fog-200: #dfe6e9;
+  --color-fog-300: #c2cfd5;
+  --color-fog-400: #9dabb2;
+  --color-fog-500: #7a8990;
+  --color-fog-600: #617179;
+  --color-fog-700: #4a5a62;
+  --color-fog-800: #32424a;
+  --color-fog-900: #1c2b33;
+  --color-fog-950: #0a1317;
+
+  --color-sienna-50: #fff4f2;
+  --color-sienna-100: #fbe7e4;
+  --color-sienna-200: #f5c9c2;
+  --color-sienna-300: #edaba1;
+  --color-sienna-400: #e38c81;
+  --color-sienna-500: #cb6459;
+  --color-sienna-600: #b23a31;
+  --color-sienna-700: #8e312a;
+  --color-sienna-800: #6c2922;
+  --color-sienna-900: #4b201b;
+  --color-sienna-950: #2c1613;
+
+  --color-ochre-50: #fdf7ee;
+  --color-ochre-100: #fcf0dc;
+  --color-ochre-200: #f4dbb3;
+  --color-ochre-300: #ecc789;
+  --color-ochre-400: #e3b25a;
+  --color-ochre-500: #c99738;
+  --color-ochre-600: #af7d01;
+  --color-ochre-700: #8c6512;
+  --color-ochre-800: #6b4e17;
+  --color-ochre-900: #4b3817;
+  --color-ochre-950: #2d2313;
+
+  --color-moss-50: #f3faf5;
+  --color-moss-100: #e4f3e9;
+  --color-moss-200: #c4e6ce;
+  --color-moss-300: #a3d8b4;
+  --color-moss-400: #80cb9b;
+  --color-moss-500: #57a374;
+  --color-moss-600: #2d7d4f;
+  --color-moss-700: #276742;
+  --color-moss-800: #205234;
+  --color-moss-900: #193d28;
+  --color-moss-950: #132a1b;
+}
+
+:root {
+  --code-font: "Google Sans Code", "Maple Mono NF", "Cascadia Code PL", ui-monospace, monospace;
+  --bg: var(--color-fog-50);
+  --surface: #fff;
+  --surface-2: var(--color-fog-100);
+  --surface-3: var(--color-fog-200);
+  --border: var(--color-fog-200);
+  --border-strong: var(--color-fog-300);
+  --text: var(--color-fog-950);
+  --text-2: var(--color-fog-700);
+  --text-3: var(--color-fog-500);
+
+  --teal: var(--color-cerulean-600);
+  --teal-dark: var(--color-cerulean-700);
+  --teal-darker: var(--color-cerulean-800);
+  --teal-tint: var(--color-cerulean-100);
+  --teal-tint-strong: var(--color-cerulean-200);
+
+  --amber: var(--color-ochre-600);
+  --amber-tint: var(--color-ochre-100);
+  --red: var(--color-sienna-600);
+  --red-tint: var(--color-sienna-100);
+  --green: var(--color-moss-600);
+  --green-tint: var(--color-moss-100);
+}
+
+html.dark {
+  --bg: var(--color-fog-950);
+  --surface: var(--color-fog-900);
+  --surface-2: var(--color-fog-950);
+  --surface-3: var(--color-fog-900);
+  --border: var(--color-fog-900);
+  --border-strong: var(--color-fog-800);
+  --text: var(--color-fog-100);
+  --text-2: var(--color-fog-400);
+  --text-3: var(--color-fog-600);
+
+  --teal: var(--color-cerulean-500);
+  --teal-dark: var(--color-cerulean-400);
+  --teal-darker: var(--color-cerulean-300);
+  --teal-tint: var(--color-cerulean-950);
+  --teal-tint-strong: var(--color-cerulean-900);
+
+  --amber: var(--color-ochre-400);
+  --amber-tint: var(--color-ochre-950);
+  --red: var(--color-sienna-400);
+  --red-tint: var(--color-sienna-950);
+  --green: var(--color-moss-400);
+  --green-tint: var(--color-moss-950);
+}

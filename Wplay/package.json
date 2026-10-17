@@ -1,0 +1,19 @@
+{
+  "name": "wplay-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --strictPort",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "franken-ui": "^2.1.2",
+    "htmx.org": "^2.0.11"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.4"
+  }
+}

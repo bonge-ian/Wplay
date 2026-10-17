@@ -23,5 +23,9 @@ A high-performance **Webhook & Inbound Email Inspection Platform** built with **
 | **Framework** | C# / ASP.NET Core MVC |
 | **Data Layer** | Entity Framework Core (EF Core) |
 | **Database** | SQLite (Default) / MariaDB (`Pomelo.EntityFrameworkCore.MySql`) |
-| **Frontend** | Razor Views, HTMX, UIkit CSS |
+| **Frontend** | Razor Views, Vite, Tailwind CSS v4, HTMX, Franken UI |
 | **JSON Handling** | `System.Text.Json` & `System.Text.Json.Nodes` (`JsonNode`) |
+
+## Frontend assets
+
+Frontend sources are in `Wplay/frontend/src`. From the repository root, install dependencies and start Vite with `cd Wplay`, `npm ci`, and `npm run dev`; run the ASP.NET Core app separately with `dotnet run --project Wplay`. In development, the Razor layout loads modules from Vite at `localhost:5173`. Before publishing, run `npm run build` from `Wplay`; Vite writes the production assets and manifest to `Wplay/wwwroot/dist`. Tailwind v4 theme colors are defined from the Hookdock palette, with semantic light/dark tokens and Google Sans font stacks in `frontend/src/style.css`.
