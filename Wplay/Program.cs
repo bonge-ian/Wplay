@@ -3,6 +3,9 @@ using Wplay.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -12,8 +15,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 	options.UseSqlite(connectionString: builder.Configuration.GetConnectionString("SqlLite"))
 		.UseSnakeCaseNamingConvention()
 		.LogTo(Console.WriteLine, LogLevel.Information)
-		.EnableSensitiveDataLogging()
 		.EnableDetailedErrors();
+		
+	if (builder.Environment.IsDevelopment())
+	{
+		options.EnableSensitiveDataLogging();
+	}
 });
 
 // set lower case strings.
